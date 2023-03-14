@@ -1,4 +1,4 @@
-const { Schema, model } = require('mongoose');
+const { Schema, model, Types, default: mongoose } = require('mongoose');
 const thoughtSchema = require('./Thought');
 
 const userSchema = new Schema(
@@ -14,8 +14,13 @@ const userSchema = new Schema(
             required: true,
             unique: true,
         },
-        thoughts: [thoughtSchema],
-        friends: [userSchema]
+        thoughts: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: 'Thought',
+            },
+        ],
+        friends: [mongoose.SchemaTypes.ObjectId]
     },
     {
         toJSON: {
@@ -31,6 +36,6 @@ userSchema
         return this.friends.length;
     });
 
-const User = model('User', userSchema);
+const User = model('user', userSchema);
 
 module.exports = User;
