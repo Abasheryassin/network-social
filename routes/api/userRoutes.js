@@ -4,6 +4,6 @@ const { createUser, getUsers, getSingleUser, updateUser, deleteUser, addFriend, 
 // /api/users
 router.route('/').get(getUsers).post(createUser);
 
-router.route('/:userId').get(getSingleUser)
+router.route('/:userId').get(getSingleUser).put(updateUser).delete(deleteUser);
 
 module.exports = router;
