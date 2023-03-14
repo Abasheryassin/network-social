@@ -1,3 +1,4 @@
+const { ObjectId } = require('mongoose').Types;
 const { User } = require('../models');
 
 // create a new user
@@ -18,8 +19,17 @@ function getUsers(req, res) {
 };
 
 // retrive a single user
-function getSingleUser() {
-
+function getSingleUser(req, res) {
+    User.findOne({ _id: req.params.userId})
+        .populate({ path: 'Thought', select: '-__v' })
+        .select('-__v')
+        .then((user) => {
+            if(!user){
+                res.status(404).json({ message: 'No user with that ID' });
+            } else {
+                res.json(user);
+            }
+        });
 };
 
 // update a user by id
