@@ -1,7 +1,7 @@
 const { User } = require('../models');
 
 // create a new user
-function createUser(res, req) {
+function createUser(req, res) {
     User.create(req.body)
         .then((user) => res.json(user))
         .catch((err) => res.status(500).json(err));
