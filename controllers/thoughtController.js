@@ -22,12 +22,24 @@ function createThought(req, res) {
 // retrive all thoughts
 function getThoughts(req, res) {
     Thought.find()
-           .then((thought) => res.json(user));
+           .then((thought) => res.json(thought))
+           .catch((err) => req.status(500).json(err));
 };
 
 // retrive single thought
 function getSingleThought(req, res) {
-
+    Thought.findOne({ _id: req.params.thoughtId})
+           .then((thought) => {
+            if (!thought) {
+                res.status(404).json({ message: 'No user with that ID' });
+            } else {
+                res.json(user);
+            }
+        })
+        .catch((err) => {
+            console.error({ message: err });
+            return res.status.json(err);
+           });
 };
 
 // update thought by id
