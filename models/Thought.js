@@ -3,7 +3,8 @@ const reactionSchema = require('./Reaction');
 const dayjs = require('dayjs');
 
 function dateFormat(date) {
-    dayjs(date).format('DD/MM/YYYY [at] h:mm');
+    let newFormat = dayjs(date).format('DD/MM/YYYY [at] h:mm');
+    return newFormat
 };
 
 const thoughtSchema = new Schema(
@@ -17,7 +18,7 @@ const thoughtSchema = new Schema(
         createdAt: {
             type: Date,
             default: Date.now,
-            get: (createdAtVal) => dateFormat(createdAtVal)
+            get: date => dateFormat(date)
         },
         username: {
             type: String,

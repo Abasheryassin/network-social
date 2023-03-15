@@ -60,8 +60,21 @@ function updateUser(req, res) {
 
 // delete user by id
 function deleteUser(req, res) {
-    User.deleteOne({ _id: req.params.userId })
-        .then(() => res.status(200).json({ message: "User Deleted"}))
+    User.findOneAndDelete({ _id: req.params.userId })
+        .then((user) => {
+            if (!user) {
+                res.status(404).json('No user found with this ID');
+            } else {
+                return Thought.deleteMany({ username: user.username})
+            }
+        })
+        .then((thought) => {
+            if (!thought){
+                res.status(404).json("User deleted, but no thoughts found")
+            } else {
+                res.status(200).json("User and corresponding thoughts deleted");
+            }
+        })
         .catch((err) => {
             console.log(err);
             res.status(500).json(err);
