@@ -110,14 +110,14 @@ function addReaction(req, res) {
 function deleteReaction(req, res) {
     Thought.findOneAndUpdate(
         { _id: req.params.thoughtId},
-        { $pull: {reactions: req.body.reactionId}},
+        { $pull: {reactions: { reactionId: req.params.reactionId}}},
         { runValidators: true, new: true},
     )
           .then((thought) => {
             if (!thought) {
                 res.status(404).json({ message: 'No thought found with that ID' })
             } else {
-                res.json();
+                res.json('reaction deleted');
             }
         })
         .catch((err) => res.status(500).json(err));
