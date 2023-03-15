@@ -61,6 +61,7 @@ function updateUser(req, res) {
 // delete user by id
 function deleteUser(req, res) {
     User.deleteOne({ _id: req.params.userId })
+        .then(() => res.status(200).json({ message: "User Deleted"}))
         .catch((err) => {
             console.log(err);
             res.status(500).json(err);
