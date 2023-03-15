@@ -78,14 +78,14 @@ function deleteThought(req, res) {
            })
            .then((user) => {
             if (!user) {
-                res.status(404).json("Thought deleted, but no user found with this ID");
+                res.status(404).json({ message: "Thought deleted, but no user found with this ID"});
             } else {
                 res.status(200).json("Thought deleted!");
             }
            })
            .catch((err) => {
             console.log(err);
-            res.status(500).json(err);
+            return res.status(500).json(err);
            })
 };
 

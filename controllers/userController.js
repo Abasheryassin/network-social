@@ -70,14 +70,14 @@ function deleteUser(req, res) {
         })
         .then((thought) => {
             if (!thought){
-                res.status(404).json("User deleted, but no thoughts found")
+                res.status(404).json( {message: "User deleted, but no thoughts found"})
             } else {
                 res.status(200).json("User and corresponding thoughts deleted");
             }
         })
         .catch((err) => {
             console.log(err);
-            res.status(500).json(err);
+            return res.status(500).json(err);
         });
 };
 
