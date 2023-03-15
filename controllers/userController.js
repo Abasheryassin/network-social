@@ -21,7 +21,8 @@ function getUsers(req, res) {
 // retrive a single user
 function getSingleUser(req, res) {
     User.findOne({ _id: req.params.userId })
-        .populate({ path: 'Thought', select: '-__v' })
+        .populate('thoughts')
+        .populate('friends')
         .select('-__v')
         .then((user) => {
             if (!user) {
@@ -32,7 +33,7 @@ function getSingleUser(req, res) {
         })
         .catch((err) => {
             console.error({ message: err });
-            return res.status.json(err);
+            res.status(500).json(err);
         });
 };
 
@@ -60,6 +61,7 @@ function updateUser(req, res) {
 // delete user by id
 function deleteUser(req, res) {
     User.deleteOne({ _id: req.params.userId })
+        .then(() => res.status(200).json({ message: "User Deleted"}))
         .catch((err) => {
             console.log(err);
             res.status(500).json(err);
