@@ -1,5 +1,5 @@
 const { Schema, model, Types, default: mongoose } = require('mongoose');
-const { thoughtSchema } = require('./Thought');
+const {Thought} = require('./Thought');
 
 const userSchema = new Schema(
     {
@@ -15,7 +15,12 @@ const userSchema = new Schema(
             unique: true,
             match: [/^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/, 'Must use a vaild email']
         },
-        thoughts: [thoughtSchema],
+        thoughts: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: 'Thought'
+            }
+        ],
         friends: [mongoose.SchemaTypes.ObjectId]
     },
     {

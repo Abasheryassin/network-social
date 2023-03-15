@@ -4,13 +4,12 @@ const { User, Thought } = require('../models');
 // create new thought
 function createThought(req, res) {
     Thought.create(req.body)
-           .then(async (thought) => {
+           .then((thought) => {
             console.log(thought._id);
-             const addUser = await User.findOneAndUpdate(
+            return User.findOneAndUpdate(
                 { _id: req.body.userId},
                 { $addToSet: { thoughts: thought._id } },
                 { new: true})
-                return addUser;
             })
             .then((user) => {
                 if (!user) {
