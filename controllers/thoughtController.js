@@ -44,7 +44,21 @@ function getSingleThought(req, res) {
 
 // update thought by id
 function updateThought(req, res) {
-
+    Thought.findByIdAndUpdate(
+        {_id : req.params.thoughtId},
+        req.body
+    )
+           .then((thought) => {
+            if(!thought) {
+                res.status(404).json({ message: 'No thought with this id'});
+            } else {
+                res.json(thought);
+            }
+           })
+           .catch((err) => {
+            console.error({ message: err });
+            return res.status.json(err);
+           });
 };
 
 // delete thought by id
